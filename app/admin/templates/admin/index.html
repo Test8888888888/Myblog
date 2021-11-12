@@ -7,7 +7,7 @@
             <div id="baidu_includes" style="height: 500px;"></div>
         </div>
     </div>
-    
+
 </div>
 {% endblock %}
 {% block js %}
@@ -21,7 +21,12 @@
 <script type="text/javascript">
     var dom = document.getElementById("baidu_includes");
     var myChart = echarts.init(dom);
-    var datas = {{ spinderIncludes | tojson(ensure_ascii = False) }};
+    var datas = {
+    {
+        spinderIncludes | tojson(ensure_ascii = False)
+    }
+    }
+    ;
     let rqs = [];
     let nums = [];
 

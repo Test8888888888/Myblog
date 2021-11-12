@@ -1,8 +1,8 @@
 {% extends 'tend/common/base.html' %}
 {% import "tend/macros/_patination.html" as page_macros %}
-{% block title %} 搜索【{{query}}】结果-何三笔记 {% endblock %}
+{% block title %} 搜索【{{query}}】结果-冰糖笔记 {% endblock %}
 {% block keywords %}  {% endblock %}
-{% block description %} 搜索【{{query}}】结果-何三笔记 {% endblock %}
+{% block description %} 搜索【{{query}}】结果-冰糖笔记 {% endblock %}
 {% block content %}
 <!--面包导航-->
 <nav aria-label="breadcrumb">
@@ -26,8 +26,8 @@
         <div class="media-body">
             <div class="text-muted mb-2 f-12">
                 <img class="avatar" src="{{url_for('.static',filename='img/avatar.png')}}"
-                    alt="何三">
-                <span>何三</span>
+                    alt="冰糖">
+                <span>冰糖</span>
                 <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i>{{a.timestamp|pretty_date}}</span>
             </div>
             <h2 class="mt-0 font-weight-bold text-info f-17">

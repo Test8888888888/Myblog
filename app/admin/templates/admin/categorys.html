@@ -4,11 +4,11 @@
 <div class="container">
     <div class="row">
         <div>
-        <h3>分类列表</h3> <a href="{{url_for('admin.categroy_add')}}">添加</a>
+            <h3>分类列表</h3> <a href="{{url_for('admin.categroy_add')}}">添加</a>
         </div>
         <table class="table table-bordered">
             <thead>
-              <tr>
+            <tr>
                 <th scope="col">#</th>
                 <th scope="col">名称</th>
                 <th scope="col">标识</th>
@@ -16,11 +16,11 @@
                 <th scope="col">排序</th>
                 <th scope="col">显示/隐藏</th>
                 <th scope="col">操作</th>
-              </tr>
+            </tr>
             </thead>
             <tbody>
-              {% for c in categorys.items %}
-              <tr>
+            {% for c in categorys.items %}
+            <tr>
                 <th scope="row">{{c.id}}</th>
                 <td>{{ c.title }}</td>
                 <td>{{c.name}}</td>
@@ -29,14 +29,14 @@
                 <td>{{'显示' if c.visible else '隐藏'}}</td>
                 <td>
                     <a href="{{url_for('admin.categroy_edit',id=c.id)}}"
-                    class="btn btn-outline-primary btn-sm">修改</a>
+                       class="btn btn-outline-primary btn-sm">修改</a>
                     <!-- <a href="" class="btn btn-outline-danger btn-sm">删除</a> -->
                 </td>
-                    
-              </tr>
-              {% endfor %}
+
+            </tr>
+            {% endfor %}
             </tbody>
-          </table>
+        </table>
     </div>
     {{ page_macros.pagination_widget(categorys, 'admin.categorys') }}
 </div>

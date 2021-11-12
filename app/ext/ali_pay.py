@@ -13,13 +13,15 @@ from base64 import decodebytes, encodebytes
 import json
 import requests
 
+
 class AliPay(object):
     """
     支付宝支付接口
     """
+
     def __init__(self) -> None:
         super().__init__()
-        
+
     # def __init__(self, appid, app_notify_url, app_private_key_path,
     #              alipay_public_key_path, return_url, debug=False):
     #     self.appid = appid
@@ -34,7 +36,6 @@ class AliPay(object):
     #     with open(self.alipay_public_key_path) as fp:
     #         self.alipay_public_key = RSA.import_key(fp.read())
 
-
     #     if debug is True:
     #         self.__gateway = "https://openapi.alipaydev.com/gateway.do"
     #     else:
@@ -42,7 +43,6 @@ class AliPay(object):
 
     def init_app(self, app) -> None:
         self.app = app
-        
 
     def _rebuild_params(self):
         pstr = '-----BEGIN PRIVATE KEY-----\n{}\n-----END PRIVATE KEY-----'
@@ -56,8 +56,7 @@ class AliPay(object):
         else:
             self.__gateway = "https://openapi.alipay.com/gateway.do"
 
-
-    def build_trade_precreate_url(self, subject, out_trade_no, total_amount, **kwargs) :
+    def build_trade_precreate_url(self, subject, out_trade_no, total_amount, **kwargs):
         """
         当面付预创建订单url
         """
@@ -81,13 +80,12 @@ class AliPay(object):
         """
         self._rebuild_params()
         url = self.build_trade_precreate_url(subject=subject, out_trade_no=out_trade_no, total_amount=total_amount)
-        resp = requests.get(url,timeout=5)
+        resp = requests.get(url, timeout=5)
         body_dict = json.loads(resp.text)
         ali_resp = body_dict['alipay_trade_precreate_response']
         if ali_resp['code'] == '10000':
             return ali_resp['qr_code']
         return ''
-
 
     def direct_pay(self, subject, out_trade_no, total_amount, return_url=None, **kwargs):
         biz_content = {
@@ -101,7 +99,6 @@ class AliPay(object):
         biz_content.update(kwargs)
         data = self.build_body("alipay.trade.page.pay", biz_content, self.return_url)
         return self.sign_data(data)
-
 
     def build_body(self, method, biz_content, return_url=None):
         data = {
@@ -120,13 +117,12 @@ class AliPay(object):
             data["notify_url"] = self.app_notify_url
         return data
 
-    def _build_sign_params(self, params:dict) -> None:
-        params.pop('sign',None)
+    def _build_sign_params(self, params: dict) -> None:
+        params.pop('sign', None)
         unsigned_items = self.ordered_data(params)
         unsigned_string = "&".join("{0}={1}".format(k, v) for k, v in unsigned_items)
         sign = self.sign(unsigned_string.encode("utf-8"))
         params['sign'] = sign
-
 
     def sign_data(self, data):
         data.pop("sign", None)
@@ -185,12 +181,12 @@ if __name__ == "__main__":
     """支付请求过程"""
     # 传递参数初始化支付类
     alipay = AliPay(
-        appid="2021000117636514",                                   # 设置签约的appid
-        app_notify_url="http://projectsedus.com/",                  # 异步支付通知url
-        app_private_key_path= '应用私钥_RSA2_PKCS1.txt',               # 设置应用私钥
-        alipay_public_key_path="支付宝公钥.txt",           # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+        appid="2021000117636514",  # 设置签约的appid
+        app_notify_url="http://projectsedus.com/",  # 异步支付通知url
+        app_private_key_path='应用私钥_RSA2_PKCS1.txt',  # 设置应用私钥
+        alipay_public_key_path="支付宝公钥.txt",  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
         debug=True,  # 默认False,                                   # 设置是否是沙箱环境，True是沙箱环境
-        return_url="http://47.92.87.172:8000/"                      # 同步支付通知url
+        return_url="http://47.92.87.172:8000/"  # 同步支付通知url
     )
 
     # 传递参数执行支付类里的direct_pay方法，返回签名后的支付参数，
@@ -201,13 +197,13 @@ if __name__ == "__main__":
     #     total_amount=100,                               # 支付金额
     #     return_url="http://47.92.87.172:8000/"          # 支付成功后，跳转url
     # )
-    
+
     # 将前面后的支付参数，拼接到支付网关
     # 注意：下面支付网关是沙箱环境，
     # re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
     # print(re_url)
     # 最终进行签名后组合成支付宝的url请求
-    url = alipay.build_trade_precreate_url(subject='测试', out_trade_no='20210414002',total_amount=0.01)
+    url = alipay.build_trade_precreate_url(subject='测试', out_trade_no='20210414002', total_amount=0.01)
     print(url)
     resp = requests.get(url)
     body_dict = json.loads(resp.text)

@@ -34,12 +34,13 @@
         }
 
         body {
-            background-image:url(https://www.h3blog.com/bing_bg);
-            background-size: cover; 
+            background-image: url(https://www.h3blog.com/bing_bg);
+            background-size: cover;
         }
+
         #login {
-            filter:alpha(Opacity=80);
-            -moz-opacity:0.8;
+            filter: alpha(Opacity=80);
+            -moz-opacity: 0.8;
             opacity: 0.8;
         }
     </style>
@@ -49,40 +50,41 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <span class="mb-4 font-weight-bold" style="font-size: xx-large;">H3BLOG</span>
-        </div>
-        <div class="row justify-content-center">
-            <div id="login" class="card">
-                <div class="card-body">
-                    <form class="form-signin" method="post">
-                        {{ loginForm.hidden_tag() }}
-
-                        <!-- <h1 class="h3 mb-3 font-weight-normal">博客登陆</h1> -->
-                        <label for="username" class="sr-only">帐号</label>
-                        {{ loginForm.username(id="username",class="form-control", placeholder="帐 号",required="", autofocus="") }}
-                        <label for="password" class="sr-only">密码</label>
-                        {{ loginForm.password(id="password",class="form-control",placeholder="密 码",required="")}}
-                        <div class="checkbox mb-3">
-                            <label>
-                                {{ loginForm.remember_me() }} {{ loginForm.remember_me.label(class="small") }}
-                            </label>
-                        </div>
-                        {{ loginForm.submit(class="btn btn-ls btn-primary btn-block") }}
-                    </form>
-                </div>
-            </div>
-            <!--end card-->
-        </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <span class="mb-4 font-weight-bold" style="font-size: xx-large;">H3BLOG</span>
     </div>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ url_for('admin.static',filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('admin.static',filename='js/popper.min.js') }}"></script>
-    <script src="{{ url_for('admin.static',filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('admin.static',filename='js/toastr.min.js')}}"></script>
-    <script src="{{ url_for('admin.static',filename='js/admin.js')}}"></script>
-    {% include 'admin/common/alert.html' %}
+    <div class="row justify-content-center">
+        <div id="login" class="card">
+            <div class="card-body">
+                <form class="form-signin" method="post">
+                    {{ loginForm.hidden_tag() }}
+
+                    <!-- <h1 class="h3 mb-3 font-weight-normal">博客登陆</h1> -->
+                    <label for="username" class="sr-only">帐号</label>
+                    {{ loginForm.username(id="username",class="form-control", placeholder="帐 号",required="",
+                    autofocus="") }}
+                    <label for="password" class="sr-only">密码</label>
+                    {{ loginForm.password(id="password",class="form-control",placeholder="密 码",required="")}}
+                    <div class="checkbox mb-3">
+                        <label>
+                            {{ loginForm.remember_me() }} {{ loginForm.remember_me.label(class="small") }}
+                        </label>
+                    </div>
+                    {{ loginForm.submit(class="btn btn-ls btn-primary btn-block") }}
+                </form>
+            </div>
+        </div>
+        <!--end card-->
+    </div>
+</div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{{ url_for('admin.static',filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('admin.static',filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('admin.static',filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('admin.static',filename='js/toastr.min.js')}}"></script>
+<script src="{{ url_for('admin.static',filename='js/admin.js')}}"></script>
+{% include 'admin/common/alert.html' %}
 </body>
 
 </html>

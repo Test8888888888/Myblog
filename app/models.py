@@ -16,15 +16,15 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(64), unique=True, index=True)
-    email_state = db.Column(db.Boolean,default=False)
+    email_state = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String(128))
-    name = db.Column(db.String(64),nullable=False, default='')
-    website = db.Column(db.String(128),nullable=False,default='',comment='网址')
+    name = db.Column(db.String(64), nullable=False, default='')
+    website = db.Column(db.String(128), nullable=False, default='', comment='网址')
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     status = db.Column(db.Boolean, default=False)
     role = db.Column(db.Integer, default=2, comment='1=管理员,0=普通账号,3=vip')
-    avatar = db.Column(db.String(120),default='')
+    avatar = db.Column(db.String(120), default='')
     articles = db.relationship('Article', backref='author', lazy='dynamic')
 
     @property
@@ -40,10 +40,10 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.role == 1
-    
+
     def is_vip(self):
         return self.role == 3
-        
+
     @property
     def role_name(self):
         name = ''
@@ -76,18 +76,18 @@ class AnonymousUser(AnonymousUserMixin):
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64),unique=True,index=True)
+    title = db.Column(db.String(64), unique=True, index=True)
     name = db.Column(db.String(64), unique=True, index=True)
     desp = db.Column(db.String(300))
-    tpl_list = db.Column(db.String(300)) #列表模板
-    tpl_page = db.Column(db.String(300)) #单页/详情模板
-    tpl_mold = db.Column(db.String(20)) #模板类型 list,single_page
-    content = db.Column(db.Text) # 如果是单页，可以录入信息内容
+    tpl_list = db.Column(db.String(300))  # 列表模板
+    tpl_page = db.Column(db.String(300))  # 单页/详情模板
+    tpl_mold = db.Column(db.String(20))  # 模板类型 list,single_page
+    content = db.Column(db.Text)  # 如果是单页，可以录入信息内容
     seo_title = db.Column(db.String(100))
     seo_description = db.Column(db.String(300))
     seo_keywords = db.Column(db.String(300))
-    sn = db.Column(db.Integer, default=0) #排序编号
-    visible = db.Column(db.Boolean, default=True) #是否隐藏
+    sn = db.Column(db.Integer, default=0)  # 排序编号
+    visible = db.Column(db.Boolean, default=True)  # 是否隐藏
     articles = db.relationship('Article', backref='category', lazy='dynamic')
     icon = db.Column(db.String(128), default='')
 
@@ -96,20 +96,19 @@ class Category(db.Model):
 
 
 article_tag = db.Table('article_tag',
-                       db.Column('article_id',db.Integer,db.ForeignKey('article.id'),primary_key=True),
-                       db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'),primary_key=True))
-
+                       db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
+                       db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True))
 
 
 class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(64),nullable=False, unique=True, index=True)
-    code = db.Column(db.String(64), nullable=False, unique=True, index = True)
-    visible = db.Column(db.Boolean, default=True) #是否隐藏
+    name = db.Column(db.String(64), nullable=False, unique=True, index=True)
+    code = db.Column(db.String(64), nullable=False, unique=True, index=True)
+    visible = db.Column(db.Boolean, default=True)  # 是否隐藏
 
     @classmethod
-    def add(self,name :str) -> Any:
+    def add(self, name: str) -> Any:
         """添加标签"""
         tag = Tag.query.filter(Tag.name == name).first()
         if tag is not None:
@@ -117,7 +116,7 @@ class Tag(db.Model):
         code = util.get_short_id()
         while db.session.query(Tag.query.filter(Tag.code == code).exists()).scalar():
             code = util.get_short_id()
-        tag = Tag(name = name,code = code, visible = True)
+        tag = Tag(name=name, code=code, visible=True)
         db.session.add(tag)
         db.session.commit()
         return tag
@@ -130,31 +129,30 @@ class Article(db.Model):
     __tablename__ = 'article'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), index=True)
-    name = db.Column(db.String(64),index=True,unique=True)
-    editor = db.Column(db.String(10),nullable=False, default='')
+    name = db.Column(db.String(64), index=True, unique=True)
+    editor = db.Column(db.String(10), nullable=False, default='')
     content = db.Column(db.Text)
     content_html = db.Column(db.Text)
     summary = db.Column(db.String(300))
     thumbnail = db.Column(db.String(200))
-    state = db.Column(db.Integer,default=0)
-    vc = db.Column(db.Integer,default=0)
-    comment_num = db.Column(db.Integer,nullable=False, default=0)
+    state = db.Column(db.Integer, default=0)
+    vc = db.Column(db.Integer, default=0)
+    comment_num = db.Column(db.Integer, nullable=False, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    tags = db.relationship('Tag',secondary=article_tag,backref=db.backref('articles',lazy='dynamic'),lazy='dynamic')
-    h_content = db.Column(db.String(800), nullable=False, default = '') #隐藏内容
-    h_role = db.Column(db.Integer, default=0, comment='1=管理员,2=普通账号,3=vip') #那个角色可以看见隐藏的内容
-    is_crawl = db.Column(db.Integer, default = 0, comment = '0=作者字写，1=抓取内容')
-    origin_url = db.Column(db.String(200), default = '', comment = '抓取内容的原始url')
-    origin_author = db.Column(db.String(100), default = '', comment = '原作者')
-    
+    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles', lazy='dynamic'), lazy='dynamic')
+    h_content = db.Column(db.String(800), nullable=False, default='')  # 隐藏内容
+    h_role = db.Column(db.Integer, default=0, comment='1=管理员,2=普通账号,3=vip')  # 那个角色可以看见隐藏的内容
+    is_crawl = db.Column(db.Integer, default=0, comment='0=作者字写，1=抓取内容')
+    origin_url = db.Column(db.String(200), default='', comment='抓取内容的原始url')
+    origin_author = db.Column(db.String(100), default='', comment='原作者')
 
     def content_to_html(self):
         return markdown.markdown(self.content, extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
-            ])
+        ])
 
     # @property
     # def author(self):
@@ -174,14 +172,14 @@ class Article(db.Model):
     @property
     def previous(self):
         """用于分页显示的上一页"""
-        a = self.query.filter(Article.state==1,Article.id < self.id). \
+        a = self.query.filter(Article.state == 1, Article.id < self.id). \
             order_by(Article.timestamp.desc()).first()
         return a
 
     @property
     def next(self):
         """用于分页显示的下一页"""
-        a = self.query.filter(Article.state==1,Article.id > self.id). \
+        a = self.query.filter(Article.state == 1, Article.id > self.id). \
             order_by(Article.timestamp.asc()).first()
         return a
 
@@ -194,7 +192,7 @@ class Article(db.Model):
         return ', '.join(tags)
 
     @property
-    def thread_key(self): # 用于评论插件
+    def thread_key(self):  # 用于评论插件
         return hashlib.new(name='md5', string=str(self.id)).hexdigest()
 
     @property
@@ -223,9 +221,9 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=0)
-    user = db.relationship('User',backref=db.backref('comments',lazy='dynamic'), lazy=True)
+    user = db.relationship('User', backref=db.backref('comments', lazy='dynamic'), lazy=True)
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False, default=0, comment='关联的文章id')
-    article = db.relationship('Article',backref=db.backref('comments',lazy='dynamic',order_by=id.desc()), lazy=True)
+    article = db.relationship('Article', backref=db.backref('comments', lazy='dynamic', order_by=id.desc()), lazy=True)
     content = db.Column(db.String(1024))
     reply_id = db.Column(db.Integer, db.ForeignKey('comment.id'), default=None, comment='回复对应的评论id')
     replies = db.relationship('Comment', back_populates='comment')
@@ -233,7 +231,9 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
-        return '<user_id: %r, article_id: %r,reply_id: %r, content: %r>' % (self.user_id,self.article_id,self.reply_id,self.content)
+        return '<user_id: %r, article_id: %r,reply_id: %r, content: %r>' % (
+        self.user_id, self.article_id, self.reply_id, self.content)
+
 
 class Recommend(db.Model):
     '''
@@ -244,9 +244,10 @@ class Recommend(db.Model):
     title = db.Column(db.String(120))
     img = db.Column(db.String(200))
     url = db.Column(db.String(200))
-    sn = db.Column(db.Integer,default=0)
+    sn = db.Column(db.Integer, default=0)
     state = db.Column(db.Integer, default=1)
     timestamp = db.Column(db.DateTime, default=datetime.now)
+
 
 class AccessLog(db.Model):
     '''
@@ -259,26 +260,29 @@ class AccessLog(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now)
     remark = db.Column(db.String(32))
 
+
 class Picture(db.Model):
     '''
     图片
     '''
     __tablename__ = 'picture'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     timestamp = db.Column(db.DateTime, default=datetime.now)
     url = db.Column(db.String(120))
     remark = db.Column(db.String(32))
+
 
 class InvitationCode(db.Model):
     '''
     邀请码
     '''
     __tablename__ = 'invitation_code'
-    id = db.Column(db.Integer, primary_key = True)
-    code = db.Column(db.String(64),unique = True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(64), unique=True, nullable=False)
     user = db.Column(db.String(64))
     state = db.Column(db.Boolean, default=True)
+
 
 class OnlineTool(db.Model):
     '''
@@ -290,9 +294,10 @@ class OnlineTool(db.Model):
     desp = db.Column(db.String(120))
     img = db.Column(db.String(200))
     url = db.Column(db.String(200))
-    sn = db.Column(db.Integer,default=0)
+    sn = db.Column(db.Integer, default=0)
     state = db.Column(db.Integer, default=1)
     timestamp = db.Column(db.DateTime, default=datetime.now)
+
 
 class Setting(db.Model):
     '''
@@ -300,8 +305,9 @@ class Setting(db.Model):
     '''
     __tablename__ = 'setting'
     id = db.Column(db.Integer, primary_key=True)
-    skey = db.Column(db.String(64),index=True,unique=True)
+    skey = db.Column(db.String(64), index=True, unique=True)
     svalue = db.Column(db.String(800), default='')
+
 
 class OrderLog(db.Model):
     '''
@@ -309,16 +315,16 @@ class OrderLog(db.Model):
     '''
     __tablename__ = 'order_log'
     id = db.Column(db.Integer, primary_key=True)
-    notify_time = db.Column(db.DateTime)          # 通知发出的时间
-    notify_type = db.Column(db.String(200))          # 通知类型
-    trade_status =  db.Column(db.String(200))        # 订单状态
-    out_trade_no = db.Column(db.String(200))       # 订单号
-    buyer_logon_id = db.Column(db.String(200))    # 买家支付宝账号
-    total_amount = db.Column(db.String(30))        # 订单金额
-    subject = db.Column(db.String(200))                 # 订单标题
-    paystate = db.Column(db.Boolean, default=False) #支付状态
-    user_id = db.Column(db.Integer) #用户id
-    pay_amount = db.Column(db.DECIMAL(10,2)) #预支付金额
+    notify_time = db.Column(db.DateTime)  # 通知发出的时间
+    notify_type = db.Column(db.String(200))  # 通知类型
+    trade_status = db.Column(db.String(200))  # 订单状态
+    out_trade_no = db.Column(db.String(200))  # 订单号
+    buyer_logon_id = db.Column(db.String(200))  # 买家支付宝账号
+    total_amount = db.Column(db.String(30))  # 订单金额
+    subject = db.Column(db.String(200))  # 订单标题
+    paystate = db.Column(db.Boolean, default=False)  # 支付状态
+    user_id = db.Column(db.Integer)  # 用户id
+    pay_amount = db.Column(db.DECIMAL(10, 2))  # 预支付金额
     createtime = db.Column(db.DateTime, default=datetime.now)
     callbacktime = db.Column(db.DateTime)
 

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{url_for('.static',filename='css/tagsinput.css')}}">
 <link rel="stylesheet" href="{{url_for('.static',filename='css/typeaheadjs.css')}}">
 <style>
-    .editormd-fullscreen{
+    .editormd-fullscreen {
         z-index: 99;
     }
 </style>
@@ -22,6 +22,7 @@
 <script>
 
     var imagehosting_for = "thumbnail-img";
+
     //图床
     function imagehosting(flag) {
         imagehosting_for = flag;
@@ -38,12 +39,12 @@
 
     function imagehosting_callback(obj) {
         //缩略图
-        if(imagehosting_for === 'thumbnail-img') {
+        if (imagehosting_for === 'thumbnail-img') {
             $('#thumbnail-img').attr('src', obj.img_url);
             $('#thumbnail').val(obj.img_url);
         }
         //编辑器 editor.md
-        if(imagehosting_for === 'editor-img') {
+        if (imagehosting_for === 'editor-img') {
             console.log(myEditor)
             myEditor.settings.imagehosting_callback(obj)
         }
@@ -77,19 +78,19 @@
                 //     "fullscreen", "watch", "preview", "info", "|", "publish"]
                 return ["bold", "del", "italic", "quote", "|", "h2", "h3", "h4",
                     "|", "list-ul", "list-ol", "hr", "|", "link", "reference-link", "image",
-                    "code", "code-block", "table", "|", "import_url","watch", "fullscreen"]
+                    "code", "code-block", "table", "|", "import_url", "watch", "fullscreen"]
             },
             toolbarIconTexts: {
                 import_url: '导入'
             },
-            toolbarHandlers:{
-                 /**
+            toolbarHandlers: {
+                /**
                  * @param {Object}      cm         CodeMirror对象
                  * @param {Object}      icon       图标按钮jQuery元素对象
                  * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
                  * @param {String}      selection  编辑器选中的文本
                  */
-                import_url: function(cm, icon, cursor, selection) {
+                import_url: function (cm, icon, cursor, selection) {
                     //var cursor    = cm.getCursor();     //获取当前光标对象，同cursor参数
                     //var selection = cm.getSelection();  //获取当前选中的文本，同selection参数
 
@@ -97,7 +98,7 @@
                     // cm.replaceSelection(selection);
 
                     // 如果当前没有选中的文本，将光标移到要输入的位置
-                    if(selection === "") {
+                    if (selection === "") {
                         cm.setCursor(cursor.line, cursor.ch + 1);
                     }
 
@@ -107,59 +108,62 @@
 
                     let dialogName = 'import_url_name', dialog;
                     let editor = $('#write-editor')
-                    if (editor.find("." + dialogName).length < 1){
-                        var dialogContent ='<div class="editormd-form">';
-                            dialogContent += '<label>文章地址</label>'
-                            dialogContent += '<input type="text" name="url">'
-                            dialogContent += '<br/>'
-                            dialogContent += '<label>导入图片</label>'
-                            dialogContent += '<a href="javascript:;"><label for="editormd-import-dialog-radio" title="是">'
-                            dialogContent += '<input type="radio" name="download" id="yes" value="1">是&nbsp;'
-                            dialogContent += '</label></a>'
-                            dialogContent += '<a href="javascript:;"><label for="editormd-import-dialog-radio" title="否">'
-                            dialogContent += '<input type="radio" name="download" id="no" value="0" checked="checked">否&nbsp;'
-                            dialogContent += '</label></a>'
-                            dialogContent += '</div>';
+                    if (editor.find("." + dialogName).length < 1) {
+                        var dialogContent = '<div class="editormd-form">';
+                        dialogContent += '<label>文章地址</label>'
+                        dialogContent += '<input type="text" name="url">'
+                        dialogContent += '<br/>'
+                        dialogContent += '<label>导入图片</label>'
+                        dialogContent += '<a href="javascript:;"><label for="editormd-import-dialog-radio" title="是">'
+                        dialogContent += '<input type="radio" name="download" id="yes" value="1">是&nbsp;'
+                        dialogContent += '</label></a>'
+                        dialogContent += '<a href="javascript:;"><label for="editormd-import-dialog-radio" title="否">'
+                        dialogContent += '<input type="radio" name="download" id="no" value="0" checked="checked">否&nbsp;'
+                        dialogContent += '</label></a>'
+                        dialogContent += '</div>';
 
                         dialog = this.createDialog({
-                            title      : '导入文章',
-                            width      : (this.settings.imageUpload) ? 465 : 380,
-                            height     : 254,
-                            name       : dialogName,
-                            content    : dialogContent,
-                            mask       : this.settings.dialogShowMask,
-                            drag       : this.settings.dialogDraggable,
-                            lockScreen : this.settings.dialogLockScreen,
-                            maskStyle  : {
-                                opacity         : this.settings.dialogMaskOpacity,
-                                backgroundColor : this.settings.dialogMaskBgColor
+                            title: '导入文章',
+                            width: (this.settings.imageUpload) ? 465 : 380,
+                            height: 254,
+                            name: dialogName,
+                            content: dialogContent,
+                            mask: this.settings.dialogShowMask,
+                            drag: this.settings.dialogDraggable,
+                            lockScreen: this.settings.dialogLockScreen,
+                            maskStyle: {
+                                opacity: this.settings.dialogMaskOpacity,
+                                backgroundColor: this.settings.dialogMaskBgColor
                             },
-                            buttons : {
-                                enter : [this.lang.buttons.enter, function() {
-                                    var url  = this.find("[name='url']").val();
+                            buttons: {
+                                enter: [this.lang.buttons.enter, function () {
+                                    var url = this.find("[name='url']").val();
                                     var download = this.find("[name=\"download\"]:checked").val();
-                                    console.log(url,download)
+                                    console.log(url, download)
 
-                                    if (url === "")
-                                    {
+                                    if (url === "") {
                                         alert('文章地址不能为空');
                                         return false;
                                     }
                                     let that = this;
-                                    $.post('{{url_for("admin.import_article")}}', {url: url, 'csrf_token':'{{ csrf_token() }}', download_img: download}, (resp)=>{
+                                    $.post('{{url_for("admin.import_article")}}', {
+                                        url: url,
+                                        'csrf_token': '{{ csrf_token() }}',
+                                        download_img: download
+                                    }, (resp) => {
                                         //console.log(resp)
                                         //cm.replaceSelection(resp);
                                         cm.setValue(resp)
                                         that.find("[name='url']").val('');
                                         this.hide().lockScreen(false).hideMask();
                                     })
-                                    
+
                                     // this.hide().lockScreen(false).hideMask();
 
                                     return false;
                                 }],
 
-                                cancel : [this.lang.buttons.cancel, function() {
+                                cancel: [this.lang.buttons.cancel, function () {
                                     this.hide().lockScreen(false).hideMask();
 
                                     return false;
@@ -167,7 +171,7 @@
                             }
                         });
                     }
-                    
+
                     dialog = editor.find("." + dialogName);
                     dialog.find("[type=\"text\"]").val("");
 
@@ -177,16 +181,16 @@
                 },
             },
 
-            lang : {
-                toolbar : {
-                    import_url:'导入',
+            lang: {
+                toolbar: {
+                    import_url: '导入',
                 }
             },
             imagehosting: function () {
                 imagehosting('editor-img');
             },
-            imagehosting_callback:function(obj) {
-                
+            imagehosting_callback: function (obj) {
+
             }
         });
 
@@ -245,10 +249,10 @@
         $('#baseURL').html(window.location.protocol + "//" + window.location.host + '/');
 
         $('#timestamp').fdatepicker({
-			format: 'yyyy-mm-dd hh:ii:ss',
-			pickTime: true
+            format: 'yyyy-mm-dd hh:ii:ss',
+            pickTime: true
         });
-        
+
 
         //tags
         $('#tags').tagsinput({
@@ -282,14 +286,15 @@
                         <div class="row justify-content-between">
                             <div class="col-10">
                                 网址:<span
-                                id="baseURL">http://www.h3blog.com/</span>article/{{form.name(class='border-top-0 border-left-0 border-right-0 input-small w-auto')}}
+                                    id="baseURL">http://www.h3blog.com/</span>article/{{form.name(class='border-top-0
+                                border-left-0 border-right-0 input-small w-auto')}}
                             </div>
                             <div class="col-2 mr-auto">
                                 <a href="{{ request.path + '?editor=tinymce'}}">切换编辑器</a>
                             </div>
-                          </div>
-                        
-                            
+                        </div>
+
+
                     </div>
                     <div class="write-article">
                         <div id="write-editor">
@@ -299,44 +304,48 @@
                     <div class="accordion" id="accordionExample">
                         <div class="card">
                             <div class="card-header" id="headingOne" style="padding:0px;">
-                              <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  文章简介
-                                </button>
-                              </h2>
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        文章简介
+                                    </button>
+                                </h2>
                             </div>
-                        
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                              <div class="card-body">
-                                {{form.summary(id='summary',class='form-control')}}
-                              </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {{form.summary(id='summary',class='form-control')}}
+                                </div>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-header" id="headingTwo" style="padding:0px;">
-                              <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                  权限内容
-                                </button>
-                              </h2>
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        权限内容
+                                    </button>
+                                </h2>
                             </div>
-                        
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                              <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">选择角色</label>
-                                    <div class="col-sm-10">
-                                        {{form.h_role(class='form-control')}}
+
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-2 col-form-label">选择角色</label>
+                                        <div class="col-sm-10">
+                                            {{form.h_role(class='form-control')}}
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">可见内容</label>
-                                    <div class="col-sm-10">
-                                        {{form.h_content(class='form-control')}}
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-2 col-form-label">可见内容</label>
+                                        <div class="col-sm-10">
+                                            {{form.h_content(class='form-control')}}
+                                        </div>
                                     </div>
                                 </div>
-                              </div>
                             </div>
                         </div>
                     </div>
@@ -370,11 +379,12 @@
                         <h6 class="card-title p-2 border-bottom">缩略图</h6>
                         <div class="card-body">
                             <img id="thumbnail-img"
-                                src="{{form.thumbnail.data if form.thumbnail.data else url_for('static',filename='img/thumbnail.jpg')}}"
-                                class="card-img-top" alt="缩略图">
+                                 src="{{form.thumbnail.data if form.thumbnail.data else url_for('static',filename='img/thumbnail.jpg')}}"
+                                 class="card-img-top" alt="缩略图">
                             <div class="mt-2">
                                 <button id="thumbnail-upload-btn" type="button"
-                                    class="btn btn-outline-secondary btn-sm">选择图片</button>
+                                        class="btn btn-outline-secondary btn-sm">选择图片
+                                </button>
                             </div>
                         </div>
                     </div>

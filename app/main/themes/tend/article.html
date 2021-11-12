@@ -14,8 +14,8 @@
 <script src="{{url_for('main.static',filename='js/comment/editor.js')}}"></script>
 {% endblock %}
 
-{% block title %}{{ article.title }}-{{article.category.title}}-何三笔记{% endblock %}
-{% block keywords %} {{article.title}}-何三笔记 {% endblock %}
+{% block title %}{{ article.title }}-{{article.category.title}}-冰糖笔记{% endblock %}
+{% block keywords %} {{article.title}}-冰糖笔记 {% endblock %}
 {% block description %} {{article.summary|truncate(80,killwords=True,leeway=0) }} {% endblock %}
 {% block content %}
 <div class="">
@@ -55,7 +55,7 @@
             </p>
             {% endif %}
             <blockquote class="p-1 f-14 mt-3" style="border-left: 4px solid #dc3545;">
-                <p class="m-1"><strong>版权声明：</strong>如无特殊说明，文章均为<a href="{{url_for('main.index')}}">何三笔记</a>原创，转载请注明出处
+                <p class="m-1"><strong>版权声明：</strong>如无特殊说明，文章均为<a href="{{url_for('main.index')}}">冰糖笔记</a>原创，转载请注明出处
                 </p>
                 <p class="m-1"><strong>本文链接：</strong><a href="{{request.url}}">{{request.url}}</a></p>
             </blockquote>

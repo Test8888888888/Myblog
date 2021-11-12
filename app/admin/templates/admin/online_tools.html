@@ -4,11 +4,11 @@
 <div class="container">
     <div class="row">
         <div>
-        <h3>在线工具</h3> <a href="{{url_for('admin.online_tools_add')}}">添加</a>
+            <h3>在线工具</h3> <a href="{{url_for('admin.online_tools_add')}}">添加</a>
         </div>
         <table class="table table-bordered">
             <thead>
-              <tr>
+            <tr>
                 <th scope="col">标题</th>
                 <th scope="col">描述</th>
                 <th scope="col">链接</th>
@@ -16,11 +16,11 @@
                 <th scope="col">排序</th>
                 <th scope="col">状态</th>
                 <th scope="col">操作</th>
-              </tr>
+            </tr>
             </thead>
             <tbody>
-              {% for r in tools.items %}
-              <tr>
+            {% for r in tools.items %}
+            <tr>
                 <th scope="row">{{r.title}}</th>
                 <th>{{r.desp}}</th>
                 <td>{{ r.url }}</td>
@@ -29,13 +29,13 @@
                 <td>{{r.state}}</td>
                 <td>
                     <a href="{{url_for('admin.online_tools_edit',id=r.id)}}"
-                    class="btn btn-outline-primary btn-sm">修改</a>
+                       class="btn btn-outline-primary btn-sm">修改</a>
                 </td>
-                    
-              </tr>
-              {% endfor %}
+
+            </tr>
+            {% endfor %}
             </tbody>
-          </table>
+        </table>
     </div>
     {{ page_macros.pagination_widget(tools, 'admin.online_tools') }}
 </div>

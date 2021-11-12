@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path,override=True)
+    load_dotenv(dotenv_path, override=True)
 
-from app import create_app  
+from app import create_app
 
 app = create_app()

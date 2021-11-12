@@ -110,6 +110,7 @@
 
     var imagehosting_for = "thumbnail-img";
     var tinymce_select_img_callback = null;
+
     //图床
     function imagehosting(flag) {
         imagehosting_for = flag;
@@ -127,22 +128,22 @@
     //image_hosting.html图床界面调用该函数
     function imagehosting_callback(obj) {
         //缩略图
-        if(imagehosting_for === 'thumbnail-img') {
+        if (imagehosting_for === 'thumbnail-img') {
             $('#thumbnail-img').attr('src', obj.img_url);
             $('#thumbnail').val(obj.img_url);
         }
         //编辑器 editor.md
-        if(imagehosting_for === 'editor-img') {
-            tinymce_select_img_callback(obj.img_url, { alt: obj.img_name });
+        if (imagehosting_for === 'editor-img') {
+            tinymce_select_img_callback(obj.img_url, {alt: obj.img_name});
         }
 
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         tinymce.init({
             selector: '#content',
-            language:'zh_CN',
+            language: 'zh_CN',
             //skin:'oxide-dark',
             plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template code codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern help emoticons autosave bdmap indent2em autoresize lineheight formatpainter axupimgs',
             toolbar: 'code undo redo | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent ',
@@ -165,14 +166,14 @@
             ],*/
             convert_urls: false,
             image_class_list: [
-            { title: 'None', value: '' },
-            { title: 'Some class', value: 'class-name' }
+                {title: 'None', value: ''},
+                {title: 'Some class', value: 'class-name'}
             ],
             importcss_append: true,
             //自定义文件选择器的回调内容
             file_picker_callback: function (callback, value, meta) {
                 if (meta.filetype === 'file') {
-                    callback('https://www.baidu.com/img/bd_logo1.png', { text: 'My text' });
+                    callback('https://www.baidu.com/img/bd_logo1.png', {text: 'My text'});
                 }
                 if (meta.filetype === 'image') {
                     imagehosting('editor-img')
@@ -180,46 +181,46 @@
                     // callback('https://www.baidu.com/img/bd_logo1.png', { alt: 'My alt text' });
                 }
                 if (meta.filetype === 'media') {
-                    callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.baidu.com/img/bd_logo1.png' });
+                    callback('movie.mp4', {source2: 'alt.ogg', poster: 'https://www.baidu.com/img/bd_logo1.png'});
                 }
             },
             autosave_ask_before_unload: false,
         });
 
         var tpl_mold = $('#tpl_mold').val();
-        if(tpl_mold === 'list'){
+        if (tpl_mold === 'list') {
             $('#div_tpl_list').show();
             $('#div_content').hide();
-        }else {
+        } else {
             $('#div_tpl_list').hide();
             $('#div_content').show();
         }
-        $('#tpl_mold').on('change',function(){
+        $('#tpl_mold').on('change', function () {
             tpl_mold = $(this).val();
-            if(tpl_mold === 'list'){
+            if (tpl_mold === 'list') {
                 $('#div_tpl_list').show();
                 $('#div_content').hide();
-            }else {
+            } else {
                 $('#div_tpl_list').hide();
                 $('#div_content').show();
             }
         });
     });
 
-    $(function() {
-        $("input[name='icon']").focus(function() {
+    $(function () {
+        $("input[name='icon']").focus(function () {
             $(".icon-drop").show();
         });
-        $("#form").click(function(event) {
+        $("#form").click(function (event) {
             var obj = event.srcElement || event.target;
             if (!$(obj).is("input[name='icon']")) {
                 $(".icon-drop").hide();
             }
         });
         $(".icon-drop").find(".ico-list i").on("click",
-            function() {
-            $('#icon').val($(this).attr('class'));
-        });
+            function () {
+                $('#icon').val($(this).attr('class'));
+            });
     });
 </script>
 {% endblock %}

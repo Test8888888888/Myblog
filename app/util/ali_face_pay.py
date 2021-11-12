@@ -33,6 +33,7 @@ from alipay.aop.api.request.AlipayTradeRefundRequest import AlipayTradeRefundReq
 from alipay.aop.api.response.AlipayTradeRefundResponse import AlipayTradeRefundResponse
 
 from alipay.aop.api.util.SignatureUtils import verify_with_rsa
+
 '''
 1. 默认通过预下单接口生成的二维码有效时间为2小时，这里设置为5分钟 qr_code_timeout_express
 2. 默认用户扫码后支付超时时间为15天，这里设置为5分钟 timeout_express
@@ -74,6 +75,7 @@ class AliFacePay:
     
     返回值：string 付款二维码链接，使用二维码生成工具生成二维码提供给用户付款
     '''
+
     def precreate(self, out_trade_no, total_amount, subject, body=None):
         '''
         系统接口示例：alipay.trade.precreate
@@ -95,9 +97,9 @@ class AliFacePay:
         precreate_model.qr_code_timeout_express = '5m'
 
         # 花呗，默认支持吗？
-        #precreate_model.enable_pay_channels = 'pcredit'
+        # precreate_model.enable_pay_channels = 'pcredit'
         # 花呗分期
-        #precreate_model.enable_pay_channels = 'pcreditpayInstallment'
+        # precreate_model.enable_pay_channels = 'pcreditpayInstallment'
 
         if body:
             precreate_model.body = body
@@ -139,6 +141,7 @@ class AliFacePay:
     交易状态 TRADE_FINISHED 的通知触发条件是商户签约的产品不支持退款功能的前提下，买家付款成功；或者，商户签约的产品支持退款功能的前提下，交易已经成功并且已经超过可退款期限
     total_amount：交易金额
     '''
+
     def query(self, out_trade_no):
         '''
         系统接口示例：alipay.trade.query
@@ -182,6 +185,7 @@ class AliFacePay:
         
     返回值：bool 是否执行成功
     '''
+
     def cancel(self, out_trade_no):
         '''
         系统接口示例：alipay.trade.cancel
@@ -221,6 +225,7 @@ class AliFacePay:
     out_trade_no：订单号，不可重复，用来区分每一笔订单
     返回值：bool 是否执行成功
     '''
+
     def close(self, out_trade_no):
         '''
         系统接口示例：alipay.trade.cancel
@@ -258,6 +263,7 @@ class AliFacePay:
     out_trade_no：订单号，不可重复，用来区分每一笔订单
     返回值：bool 是否执行成功
     '''
+
     def refund(self, out_trade_no, refund_amount):
         '''
         系统接口示例：alipay.trade.refund

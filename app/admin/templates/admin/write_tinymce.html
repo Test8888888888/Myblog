@@ -19,6 +19,7 @@
 
     var imagehosting_for = "thumbnail-img";
     var tinymce_select_img_callback = null;
+
     //图床
     function imagehosting(flag) {
         imagehosting_for = flag;
@@ -36,13 +37,13 @@
     //image_hosting.html图床界面调用该函数
     function imagehosting_callback(obj) {
         //缩略图
-        if(imagehosting_for === 'thumbnail-img') {
+        if (imagehosting_for === 'thumbnail-img') {
             $('#thumbnail-img').attr('src', obj.img_url);
             $('#thumbnail').val(obj.img_url);
         }
         //编辑器 editor.md
-        if(imagehosting_for === 'editor-img') {
-            tinymce_select_img_callback(obj.img_url, { alt: obj.img_name });
+        if (imagehosting_for === 'editor-img') {
+            tinymce_select_img_callback(obj.img_url, {alt: obj.img_name});
         }
 
     }
@@ -52,7 +53,7 @@
 
         tinymce.init({
             selector: '#write-editor',
-            language:'zh_CN',
+            language: 'zh_CN',
             //skin:'oxide-dark',
             plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template code codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern help emoticons autosave bdmap indent2em autoresize lineheight formatpainter axupimgs',
             toolbar: 'code undo redo | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent ',
@@ -75,14 +76,14 @@
             ],*/
             convert_urls: false,
             image_class_list: [
-            { title: 'None', value: '' },
-            { title: 'Some class', value: 'class-name' }
+                {title: 'None', value: ''},
+                {title: 'Some class', value: 'class-name'}
             ],
             importcss_append: true,
             //自定义文件选择器的回调内容
             file_picker_callback: function (callback, value, meta) {
                 if (meta.filetype === 'file') {
-                    callback('https://www.baidu.com/img/bd_logo1.png', { text: 'My text' });
+                    callback('https://www.baidu.com/img/bd_logo1.png', {text: 'My text'});
                 }
                 if (meta.filetype === 'image') {
                     imagehosting('editor-img')
@@ -90,7 +91,7 @@
                     // callback('https://www.baidu.com/img/bd_logo1.png', { alt: 'My alt text' });
                 }
                 if (meta.filetype === 'media') {
-                    callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.baidu.com/img/bd_logo1.png' });
+                    callback('movie.mp4', {source2: 'alt.ogg', poster: 'https://www.baidu.com/img/bd_logo1.png'});
                 }
             },
             autosave_ask_before_unload: false,
@@ -150,10 +151,10 @@
         $('#baseURL').html(window.location.protocol + "//" + window.location.host + '/');
 
         $('#timestamp').fdatepicker({
-			format: 'yyyy-mm-dd hh:ii:ss',
-			pickTime: true
+            format: 'yyyy-mm-dd hh:ii:ss',
+            pickTime: true
         });
-        
+
         //tags
         $('#tags').tagsinput({
             typeahead: {
@@ -187,14 +188,15 @@
                         <div class="row justify-content-between">
                             <div class="col-10">
                                 网址:<span
-                                id="baseURL">http://www.h3blog.com/</span>article/{{form.name(class='border-top-0 border-left-0 border-right-0 input-small w-auto')}}
+                                    id="baseURL">http://www.h3blog.com/</span>article/{{form.name(class='border-top-0
+                                border-left-0 border-right-0 input-small w-auto')}}
                             </div>
                             <div class="col-2 mr-auto">
                                 <a href="{{ request.path + '?editor=markdown'}}">切换编辑器</a>
                             </div>
-                          </div>
-                        
-                            
+                        </div>
+
+
                     </div>
                     <div class="write-article">
                         <!-- <div id="write-editor"></div> -->
@@ -203,44 +205,48 @@
                     <div class="accordion" id="accordionExample">
                         <div class="card">
                             <div class="card-header" id="headingOne" style="padding:0px;">
-                              <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  文章简介
-                                </button>
-                              </h2>
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        文章简介
+                                    </button>
+                                </h2>
                             </div>
-                        
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                              <div class="card-body">
-                                {{form.summary(id='summary',class='form-control')}}
-                              </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {{form.summary(id='summary',class='form-control')}}
+                                </div>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-header" id="headingTwo" style="padding:0px;">
-                              <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                  权限内容
-                                </button>
-                              </h2>
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        权限内容
+                                    </button>
+                                </h2>
                             </div>
-                        
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                              <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">选择角色</label>
-                                    <div class="col-sm-10">
-                                        {{form.h_role(class='form-control')}}
+
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-2 col-form-label">选择角色</label>
+                                        <div class="col-sm-10">
+                                            {{form.h_role(class='form-control')}}
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">可见内容</label>
-                                    <div class="col-sm-10">
-                                        {{form.h_content(class='form-control')}}
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-2 col-form-label">可见内容</label>
+                                        <div class="col-sm-10">
+                                            {{form.h_content(class='form-control')}}
+                                        </div>
                                     </div>
                                 </div>
-                              </div>
                             </div>
                         </div>
                     </div>
@@ -273,11 +279,12 @@
                         <h6 class="card-title p-2 border-bottom">缩略图</h6>
                         <div class="card-body">
                             <img id="thumbnail-img"
-                                src="{{form.thumbnail.data if form.thumbnail.data else url_for('static',filename='img/thumbnail.jpg')}}"
-                                class="card-img-top" alt="缩略图">
+                                 src="{{form.thumbnail.data if form.thumbnail.data else url_for('static',filename='img/thumbnail.jpg')}}"
+                                 class="card-img-top" alt="缩略图">
                             <div class="mt-2">
                                 <button id="thumbnail-upload-btn" type="button"
-                                    class="btn btn-outline-secondary btn-sm">选择图片</button>
+                                        class="btn btn-outline-secondary btn-sm">选择图片
+                                </button>
                             </div>
                         </div>
                     </div>
