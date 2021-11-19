@@ -5,7 +5,7 @@
 <link href="{{ url_for('main.static', filename='css/detail.css') }}" rel="stylesheet">
 <link href="{{ url_for('main.static', filename='css/monokai.css') }}" rel="stylesheet">
 <link href="{{ url_for('main.static', filename='css/base_comment.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/solarized_dark.min.css">
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
@@ -13,8 +13,8 @@
 <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
 <script src="{{url_for('main.static',filename='js/comment/activate-power.js')}}"></script>
 <script src="{{url_for('main.static',filename='js/comment/editor.js')}}"></script>
-<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 {% endblock %}
 
 {% block title %}{{ article.title }}-{{article.category.title}}-冰糖笔记{% endblock %}
