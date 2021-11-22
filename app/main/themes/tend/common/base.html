@@ -15,7 +15,6 @@
         {{config.H3BLOG_EXTEND_META | safe}}
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <link rel="shortcut icon" href="{{url_for('main.static',filename='img/favicon.ico')}}" type="image/x-icon"/>
         {% block css %}
         <!-- Bootstrap and font-awesome CSS -->
@@ -64,5 +63,17 @@
             <!--网站统计代码-->
             {{config.H3BLOG_TONGJI_SCRIPT | safe}}
         {% endblock %}
+            <!-- require APlayer -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+        <!-- require MetingJS -->
+        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+        <meting-js
+            mini="true"
+            fixed="true"
+            server="netease"
+            type="playlist"
+            id="395671107">    <!--网易云歌单id-->
+        </meting-js>
     </body>
 </html>
