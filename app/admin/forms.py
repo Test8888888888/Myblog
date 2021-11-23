@@ -201,7 +201,7 @@ class SettingForm(FlaskForm):
     h3blog_robots = TextAreaField('robots', default='User-agent: *\nAllow: /')
     h3blog_start_time = StringField('网站开始时间', default='2020-02-20')
     h3blog_record_no = StringField('备案号', default='暂未备案')
-    h3blog_cnzz_id = StringField('网站统计cnzz ID', default='1278628227')
+    h3blog_cnzz_id = StringField('网站统计cnzz ID', default='1280624351')
 
     alipay_appid = StringField('支付宝签约商户ID')
     alipay_public_key = TextAreaField("支付宝公钥", default='')

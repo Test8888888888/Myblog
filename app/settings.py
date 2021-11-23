@@ -55,7 +55,7 @@ class BaseConfig(object):
     H3BLOG_ROBOTS = os.getenv('H3BLOG_ROBOTS', 'User-agent: *\nAllow: /')  # 网站robots定义
     H3BLOG_START_TIME = os.getenv('H3BLOG_START_TIME', '2020-02-20')  # 网站开始运行时间
     H3BLOG_RECORD_NO = os.getenv('H3BLOG_RECORD_NO', '冀ICP备16000781号-3')  # 备案号
-    H3BLOG_CNZZ_ID = os.getenv('H3BLOG_CNZZ_ID', '1278628227')  # cnzz ID网站统计
+    H3BLOG_CNZZ_ID = os.getenv('H3BLOG_CNZZ_ID', '1280624351')  # cnzz ID网站统计
 
     MAX_CONTENT_LENGTH = 32 * 1024 * 1024
 
