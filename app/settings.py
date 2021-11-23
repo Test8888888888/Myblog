@@ -89,8 +89,8 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
-    # DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data-dev.db'))
+    DEBUG = True
+    # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data-dev.db'))
 
 
 class TestingConfig(BaseConfig):
