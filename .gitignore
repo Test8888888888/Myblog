@@ -114,7 +114,7 @@ uploads/*
 .vscode
 .env*
 migrations/
-
+app/config.py
 
 app/plugin
 
