@@ -8,7 +8,7 @@
         <meta name="referrer" content="origin">
         <!-- TDK and ICO -->
         <title>{% block title %}{{config.H3BLOG_TITLE}}{% endblock %}</title>
-        
+
         <meta name="description" content="{% block description %}{{config.H3BLOG_DESCRIPTION}}{% endblock %}">
         <meta name="keywords" content="{% block keywords %}{{config.H3BLOG_KEYWORDS}}{% endblock %}">
 
@@ -56,26 +56,33 @@
             <script>
                 $(function(){var myElement=document.querySelector(".blog-navbar");var headroom=new Headroom(myElement);headroom.init()});
             </script>
-            
+
             <script src="{{url_for('main.static',filename='js/js.cookie.min.js')}}"></script>
             <!-- Custom scripts for this template -->
             <script src="{{url_for('main.static',filename='js/blog.js')}}"></script>
             <!--网站统计代码-->
             {{config.H3BLOG_TONGJI_SCRIPT | safe}}
         {% endblock %}
-            <!-- require APlayer -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-        <!-- require MetingJS -->
-        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-        <div>
-        <meting-js
-            mini="true"
-            fixed="true"
-            server="netease"
-            type="playlist"
-            id="395671107">    <!--网易云歌单id-->
-        </meting-js>
-            </div>
+    <div id="audioBox">
+        <script type="text/javascript">
+            window.onload = function () {
+                var arr = ["test.mp3", "hello.mp3"];               //把需要播放的歌曲从后往前排，这里已添加两首音乐，可继续添加多个音乐
+                var myAudio = new Audio();
+                myAudio.preload = true;
+                myAudio.controls = true;
+                myAudio.src = arr.pop();         //每次读数组最后一个元素
+                myAudio.addEventListener('ended', playEndedHandler, false);
+                myAudio.play();
+                document.getElementById("audioBox").appendChild(myAudio);
+                myAudio.loop = false;//禁止循环，否则无法触发ended事件
+                function playEndedHandler() {
+                    myAudio.src = arr.pop();
+                    myAudio.play();
+                    console.log(arr.length);
+                    !arr.length && myAudio.removeEventListener('ended', playEndedHandler, false);//只有一个元素时解除绑定
+                }
+            }
+        </script>
+    </div>
     </body>
 </html>
