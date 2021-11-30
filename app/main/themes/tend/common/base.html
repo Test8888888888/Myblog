@@ -31,15 +31,15 @@
     </head>
 
     <body>
-    <figure>
-    <figcaption>Listen to a song and relax:</figcaption>
+    <div align="center">
+    <div>Listen to a song and relax:</div>
     <audio
         controls
         src="{{url_for('.static',filename='music/test.mp3')}}">
             Your browser does not support the
             <code>audio</code> element.
     </audio>
-</figure>
+</div>
         {% include 'tend/common/header.html' %}
         <main>
         {% block main %}
